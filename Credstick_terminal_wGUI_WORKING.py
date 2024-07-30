@@ -20,16 +20,18 @@ def threading():
     t1.start()
 
 def scan_tag():
-    print("scan")
     readTag = clf.connect(rdwr={'on-connect': updateReadData})
-    if readTag:
+    if readTag is not None:
         return readTag
     else:
         print("Error: Tag empty or not scannable")
 
 def updateReadData(tag):
-    readData = tag.ndef.records[0]
-    read_data_label.config(text=f"Nuyens on credstick: {readData.text}")
+    print(tag.ndef)
+    if tag.ndef is not None:
+        readData = tag.ndef.records[0]
+        read_data_label.config(text=f"Nuyens on credstick: {readData.text}")
+        
 
 def write_tag():
     readTag = scan_tag()
