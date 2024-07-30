@@ -27,15 +27,28 @@ def scan_tag():
         print("Error: Tag empty or not scannable")
 
 def updateReadData(tag):
-    print(tag.ndef)
     if tag.ndef is not None:
         readData = tag.ndef.records[0]
         read_data_label.config(text=f"Nuyens on credstick: {readData.text}")
+    if tag.ndef is None:
+        read_data_label.config(text=f"No credstick detected")
         
 
 def write_tag():
     readTag = scan_tag()
-    readTag.ndef.records = [ndef.TextRecord(input_window.get())]
+    old_value = readTag.ndef.records[0].text
+    input_value = input_window.get()
+
+    if input_value[0] == "-" or input_value[0] == '-':
+        writeValue = int(old_value) - int(input_value[1:])
+    elif input_value[0] == '+':
+        writeValue = int(old_value) + int(input_value[1:])
+    elif input_value[0] == '*' or input_value[0] == 'x':
+        writeValue = int(old_value) * int(input_value[1:])
+    else:
+        writeValue = input_value
+
+    readTag.ndef.records = [ndef.TextRecord(str(writeValue))]
 
 def main():
     while True:
