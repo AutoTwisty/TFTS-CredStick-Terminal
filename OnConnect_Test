@@ -1,0 +1,32 @@
+import nfc,ndef
+
+
+def read_tag(tag):
+    if tag is not None:
+        data = tag.ndef.records[0]
+        print(data.text + " Nuyen" )
+        write_data(tag)
+        return True
+
+def write_data(tag):
+    new_data = input("Enter new value for Cred-Stick (numbers only): ")
+    if new_data != '':
+        tag.ndef.records = [ndef.TextRecord(new_data)]
+        print(new_data + " Nuyen writen to Credstck")
+        return True
+    else:
+        print("No data to write, CredStick unchanged")
+        return False
+
+def tag_lost():
+    print("Tag lost")
+
+def main():
+    reader = nfc.ContactlessFrontend('usb')
+
+    reader.connect(rdwr={'on-connect': read_tag, 'interval': 0.5 , 'beep-on-connect': True})
+
+
+
+if __name__ == "__main__":
+    main()
