@@ -6,6 +6,7 @@ import nfc.tag.tt4
 import nfc.tag.tt1
 import ndef
 import tkinter as tk
+import tkinter.font
 from tkinter import simpledialog, messagebox
 from tkinter import ttk
 from tkinter import *
@@ -150,6 +151,7 @@ def write_tag():
             writeValue = input_value
 
     readTag.ndef.records = [ndef.TextRecord(str(writeValue))]
+    #place_label.config(text=f"Write successful")
 
 
 
@@ -159,41 +161,61 @@ def main():
 
 
 # Create main window
+
+
 root = tk.Tk()
 root.title("Cred-Stick Reader/Writer")
-root.geometry("720x720")
+root.geometry("500x700")
+root.configure(background='black')
 
-frame1 = tk.Frame(master=root, height=20, bg="red")
+TitleFont = tkinter.font.Font( family = "Terminal",  
+                                 size = 20 
+                                 )
+NormalFont = tkinter.font.Font( family = "Terminal",  
+                                 size = 10 
+                                 ) 
+
+frame1 = tk.Frame(master=root, height=20, bg="#804000")
 frame1.pack(fill=tk.X)
 
 # Place a Cred-Stick on the reader label
-place_label = tk.Label(root, text="Place credstick on reader...")
+place_label = tk.Label(root, text="Place credstick on reader...",fg="#ffe6cc",bg="#804000")
+place_label.config(font = TitleFont)
 place_label.pack(pady=10)
 
 # Label to show read data
-read_data_label = tk.Label(root, text="")
-read_data_label.pack(pady=10)
+read_data_label = tk.Label(root, text="", fg="#ffe6cc",bg="#804000")
+read_data_label.config(font = TitleFont)
+read_data_label.pack(pady=30)
 
 # Label to show result of write operation
-result_label = tk.Label(root, text="")
-result_label.pack(pady=10)
+#result_label = tk.Label(root, text="", fg="#ffa64d",bg="#804000")
+#result_label.pack(pady=10)
 
-input_label = tk.Label(root, text="New credstick balance")
-input_label.pack(pady=10)
+input_label = tk.Label(root, text="New credstick balance (You can also use - , + and *):", fg="#ffe6cc",bg="#804000")
+input_label.pack(pady=5)
+input_label.config(font = NormalFont)
 input_window = tk.Entry(root)
+input_window.config(font = NormalFont)
 input_window.pack(pady=10)
 
 matrixWrite = IntVar()
-writeToMatrixCheck = tk.Checkbutton(root, text="Withdraw/Deposit nuyen to Matrix handle?",variable=matrixWrite, onvalue=1, offvalue=0)
-writeToMatrixCheck.pack(pady=10)
+writeToMatrixCheck = tk.Checkbutton(root, text="Withdraw/Deposit nuyen to Matrix handle?",fg="#ffe6cc",bg="#804000",variable=matrixWrite, onvalue=1, offvalue=0)
+writeToMatrixCheck.config(font = NormalFont)
+writeToMatrixCheck.pack(pady=50)
 
-handle_input_label = tk.Label(root, text = "Enter handle to withdraw/deposit nuyen from/to:")
+handle_input_label = tk.Label(root, text = "Enter handle to withdraw/deposit nuyen from/to:", fg="#ffe6cc",bg="#804000")
+handle_input_label.config(font = NormalFont)
+handle_input_label.pack(pady=5)
+
 handle_input = tk.Entry(root)
-handle_input.pack(pady=10)
+handle_input.config(font = NormalFont)
+handle_input.pack(pady=20)
 
 # Write button
-write_button = tk.Button(root, text="Write new value", command=write_tag)
-write_button.pack(pady=10)
+write_button = tk.Button(root, text="Write new value",fg="#ffe6cc",bg="#804000", command=write_tag)
+write_button.config(font = TitleFont)
+write_button.pack(pady=50)
 
 
 threading()
