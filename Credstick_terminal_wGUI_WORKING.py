@@ -18,8 +18,8 @@ import json
 
 clf = nfc.ContactlessFrontend('usb')
 
-username = "tales"
-password = "IP*OHtkgR5CTi7Gcr6Bao#v0!AGrDKDj"
+username = ""
+password = ""
 authentication = HTTPBasicAuth(username, password)
 
 #Functions
